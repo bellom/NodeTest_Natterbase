@@ -1,0 +1,132 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Post API",
+    "description": "Post API; where user can add diffrent countries and view list of countries."
+  },
+  "schemes": [
+    "https"
+  ],
+  "host": "wdb-projects-bellom.c9users.io",
+  "basePath": "/api-docs",
+  "paths": {
+    "/login": {
+      "post": {
+        "summary": "User login",
+        "description": "User should be able to login successfully.",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "body",
+            "description": "Type in Username and Password",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful login"
+          },
+          "500": {
+            "$ref": "#/responses/Standard500ErrorResponse"
+          }
+        }
+      }
+    },
+    "/countries": {
+      "get": {
+        "summary": "Gets list of countries",
+        "description": "Returns a list countries.",
+        "responses": {
+          "200": {
+            "description": "A list of countries."
+          },
+          "500": {
+            "$ref": "#/responses/Standard500ErrorResponse"
+          }
+        }
+      }
+    },
+    "/countries/new": {
+      "post": {
+        "summary": "Creates new countries",
+        "description": "Adds a new countries to the countries list.",
+        "parameters": [
+          {
+            "name": "countries",
+            "in": "body",
+            "description": "To add a Country",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "country succesfully added."
+          },
+          "400": {
+            "description": "country couldn't be added."
+          },
+          "500": {
+            "$ref": "#/responses/Standard500ErrorResponse"
+          }
+        }
+      }
+    },
+    "/countries/{:id}'": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/username_id"
+        }
+      ],
+      "delete": {
+        "summary": "Deletes a country",
+        "description": "Delete a country",
+        "responses": {
+          "204": {
+            "description": "country successfully deleted."
+          },
+          "500": {
+            "$ref": "#/responses/Standard500ErrorResponse"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Error": {
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "responses": {
+    "Standard500ErrorResponse": {
+      "description": "An unexpected error occured.",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    }
+  },
+  "parameters": {
+    "username_id": {
+      "name": ":id",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "pattern": "[a-z0-9]{8,64}"
+    }
+  }
+}
