@@ -6,7 +6,7 @@ var middleware = require("../middleware");
 
 
 // Main Page Route showing our list of yelp camp
-router.get("/countries", function (req, res) {
+router.get("/countries", middleware.isLoggedIn, function (req, res) {
   // get all countries from DB
   camp.find({}, function (err, allCou) {
     if (err) {
@@ -55,7 +55,7 @@ router.get("/countries/new", middleware.isLoggedIn, function (req, res) {
 
 
 // DESTROY  CAMP ROUTE
-router.delete("/countries/:i", middleware.isLoggedIn, function (req, res) {
+router.delete("/countries/:id", middleware.isLoggedIn, function (req, res) {
   camp.findByIdAndRemove(req.params.id, function (err) {
     if (err) {
       res.redirect("/countries");

@@ -30,6 +30,7 @@ app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
 
+
 //PASSPORT CONFIGURATION
 app.use(require("express-session")({
    secret: "the name of my first love",

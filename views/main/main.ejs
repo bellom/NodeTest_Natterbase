@@ -3,17 +3,20 @@
 <div class="container">
    <header class="jumbotron">
       <div class="container">
-         <h1>WELCOME TO COUNTRY LIST!</h1>
+         <h2>WELCOME TO COUNTRY LIST!</h2>
          <p><a class="btn btn-primary btn-lg" href="/countries/new">Add New Country</a></p>
       </div>
    </header>
 
-   <!--to make the images equal, we add style display-->
    <div class="row text-center" style="display:flex; flex-wrap: wrap;">
       <% camps.forEach(function(camp){ %>
-         <ul>
-            <li><%= camp.country %></li><br>
-         </ul>
+         <div class="col-md-3 col-sm-6">
+            <div class="thumbnail">
+               <div class="caption">
+                  <h3><%= camp.country %></h3>
+               </div>
+            </div>
+         </div>
       <% }); %>
    </div>
 </div>
