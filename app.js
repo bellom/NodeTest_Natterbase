@@ -7,7 +7,7 @@ var flash = require("connect-flash");
 var passport = require("passport");
 var localStrategy = require("passport-local");
 var methodOverride = require("method-override");
-var camp = require("./models/campground");
+var camp = require("./models/country");
 var user = require("./models/user");
 
 //Requiring Routes
