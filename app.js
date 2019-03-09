@@ -21,9 +21,9 @@ var swaggerDocument = require('./swagger.json');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 //app.use('/api/v1', router);
 
-
-
 mongoose.connect("mongodb://localhost:27017/NatterBase", { useNewUrlParser: true });
+
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
@@ -33,10 +33,11 @@ app.use(flash());
 
 //PASSPORT CONFIGURATION
 app.use(require("express-session")({
-   secret: "the name of my first love",
+   secret: "secret",
    resave: false,
    saveUninitialized: false
 }));
+
 //PASSPORT PLUGINs
 app.use(passport.initialize());
 app.use(passport.session());

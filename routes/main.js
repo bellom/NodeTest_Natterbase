@@ -1,13 +1,20 @@
 var express = require("express");
 var router = express.Router();
 var camp = require("../models/country");
+var jwt = require("jsonwebtoken");
 var middleware = require("../middleware");
 
 
 
-// Main Page Route showing our list of yelp camp
-router.get("/countries", middleware.isLoggedIn, function (req, res) {
-  // get all countries from DB
+
+// Main Page Route showing our list of countries
+router.get("/countries", middleware.isLoggedIn, middleware.checkToken, function (req, res, next) {
+  jwt.verify(req.token, 'secret', function (err, {}) {
+    console.log(req.token);
+    if (!err) {
+      next();
+    }
+  });
   camp.find({}, function (err, allCou) {
     if (err) {
       console.log(err);
@@ -22,15 +29,10 @@ router.get("/countries", middleware.isLoggedIn, function (req, res) {
 // Route to add new camp
 router.post("/countries", middleware.isLoggedIn, function (req, res) {
   var country = req.body.country;
-  var author = {
-    id: req.user._id,
-    username: req.user.username
-  };
 
 
   var newCountry = {
     country: country,
-    author: author
   };
 
   //create a new camp and save to DB
@@ -55,7 +57,13 @@ router.get("/countries/new", middleware.isLoggedIn, function (req, res) {
 
 
 // DESTROY  CAMP ROUTE
-router.delete("/countries/:id", middleware.isLoggedIn, function (req, res) {
+router.delete("/countries/:id", middleware.isLoggedIn, middleware.checkToken, function (req, res, next) {
+  jwt.verify(req.token, 'secret', function (err, {}) {
+    if (err) {
+      res.sendStatus(403);
+    }
+    else { next(); }
+  });
   camp.findByIdAndRemove(req.params.id, function (err) {
     if (err) {
       res.redirect("/countries");
@@ -65,6 +73,9 @@ router.delete("/countries/:id", middleware.isLoggedIn, function (req, res) {
     }
   });
 });
+
+
+
 
 
 module.exports = router;
